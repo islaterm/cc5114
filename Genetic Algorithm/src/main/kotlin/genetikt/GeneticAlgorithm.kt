@@ -10,6 +10,7 @@ import java.util.*
  * @since   1.0
  */
 class Population {
+
   private val rand = Random()
   private lateinit var alphabet: String
   private lateinit var individuals: Array<Individual>
@@ -91,6 +92,7 @@ class Population {
  * @since   1.0
  */
 class Individual {
+
   private val alphabet = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ.' "
   private val mutationRate = 0.03
   internal val chromosome: CharArray
