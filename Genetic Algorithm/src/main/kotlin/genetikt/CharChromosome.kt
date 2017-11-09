@@ -44,7 +44,7 @@ class CharChromosome(
    * @return
    *    Fitness of the chromosome.
    */
-  var fitness: () -> Double = {
+  override var fitness: () -> Double = {
     assert(target.size == size) { "Target must be equal in size to chromosome." }
     var score = 0.0
     (0 until target.size)

@@ -13,4 +13,7 @@ interface IChromosome<G : IGene<*>> {
   /** Number of genes in the chromosome. */
   val size: Int
     get() = genes.size
+
+  /** Fitness of the chromosome */
+  val fitness: () -> Double
 }
