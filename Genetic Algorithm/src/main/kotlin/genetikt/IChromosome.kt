@@ -14,6 +14,16 @@ interface IChromosome<G : IGene<*>> {
   val size: Int
     get() = genes.size
 
-  /** Fitness of the chromosome */
+  /** Fitness of the chromosome. */
   val fitness: () -> Double
+
+  /** Creates a copy of this chromosome. */
+  fun copy(): IChromosome<G>
+
+  /**
+   * Mutates a chromosome according to it's mutation rate.
+   *
+   * @param mutationRate  Probability with which a gene will mutate.
+   */
+  fun mutate(mutationRate: Double)
 }

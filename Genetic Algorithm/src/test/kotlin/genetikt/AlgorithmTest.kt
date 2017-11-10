@@ -1,6 +1,6 @@
 package genetikt
 
-import org.junit.Assert.assertTrue
+/*import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -37,4 +37,4 @@ class AlgorithmTest {
     }
     assertTrue(population.getFittest().toString() == target2)
   }
-}
+}*/

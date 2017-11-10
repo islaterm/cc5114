@@ -19,11 +19,12 @@ class CharGeneTest {
 
   @Before
   fun setUp() {
-    gene1 = CharGene()
-    gene2 = CharGene('A')
-    gene3 = CharGene('A')
+    gene1 = CharGene(
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"%\$&/()=?`{[]}\\+~*#';.:,-_<>|@^'")
+    gene2 = CharGene('A', "A")
+    gene3 = CharGene('A', "A")
     gene4 = CharGene('A', "ABC")
-    gene5 = CharGene('あ')
+    gene5 = CharGene('あ', "A")
   }
 
   @Test

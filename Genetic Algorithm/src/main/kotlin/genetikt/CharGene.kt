@@ -11,10 +11,11 @@ class CharGene : IGene<Char> {
 
   //region Properties
   /** Character set used by this gene. */
-  val alphabet: String
+  internal var alphabet: String
 
   /** DNA of this gene. */
-  override val dna: Char
+  override var dna: Char
+    private set
 
   /** A character is valid if it's contained in the gene alphabet. */
   var isValid: Boolean
@@ -25,12 +26,9 @@ class CharGene : IGene<Char> {
   /**
    * Creates a new gene from a random character.
    *
-   * @param anAlphabet
-   *    **(Optional)** Set of valid characters. By default:
-   *    `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !"%$&/()=?`{[]}\+~*#';.:,-_<>|@^'`.
+   * @param anAlphabet  Set of valid characters.
    */
-  constructor(anAlphabet: String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY" +
-      "Z !\"%\$&/()=?`{[]}\\+~*#';.:,-_<>|@^'") {
+  constructor(anAlphabet: String) {
     alphabet = anAlphabet
     dna = alphabet[Random().nextInt(alphabet.length)]
     isValid = true
@@ -42,19 +40,25 @@ class CharGene : IGene<Char> {
    * @param char
    *    The character this gene represents.
    * @param anAlphabet
-   *    **(Optional)** Set of valid characters. By default:
-   *    `0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !"%$&/()=?`{[]}\+~*#';.:,-_<>|@^'`.
+   *    Set of valid characters.
    */
-  constructor(
-      char: Char,
-      anAlphabet: String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"%\$" +
-          "&/()=?`{[]}\\+~*#';.:,-_<>|@^'"
-  ) {
+  constructor(char: Char, anAlphabet: String) {
     alphabet = anAlphabet
     dna = char
     isValid = alphabet.asSequence().contains(char)
   }
   //endregion
+
+  //region Public declarations
+  override fun copyTo(other: IGene<*>) {
+    other.copyFromCharGene(this)
+  }
+
+  override fun copyFromCharGene(other: CharGene) {
+    alphabet = other.alphabet
+    dna = other.dna
+    isValid = other.isValid
+  }
 
   /**
    * Checks if this gene is equal to another.
@@ -68,10 +72,14 @@ class CharGene : IGene<Char> {
     return other is CharGene && this.dna == other.dna && this.alphabet == other.alphabet
   }
 
+  /**
+   * Returns a hash code value for the object.
+   */
   override fun hashCode(): Int {
     var result = alphabet.hashCode()
     result = 31 * result + dna.hashCode()
     result = 31 * result + isValid.hashCode()
     return result
   }
+  //endregion
 }

@@ -1,6 +1,6 @@
 package genetikt
 
-import java.util.*
+/*import java.util.*
 
 /**
  * Creates a population of individuals that can evolve according to a fitness function.
@@ -90,6 +90,7 @@ class Population {
  * @author  Ignacio Slater Muñoz.
  * @version 1.0
  * @since   1.0
+ * @since   1.0
  */
 class Individual {
 
@@ -130,4 +131,4 @@ class Individual {
       if (r < mutationRate) chromosome[i] = getRandomChar()
     }
   }
-}
+}*/

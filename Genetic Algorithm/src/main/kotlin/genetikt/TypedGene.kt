@@ -11,10 +11,12 @@ class TypedGene<DNA> : IGene<DNA> {
 
   //region Properties
   /** Dictionary that contains all the valid DNA sequences. */
-  val alphabet: Map<String, DNA>
+  var alphabet: Map<String, DNA>
+    private set
 
   /** DNA of this gene. */
-  override val dna: DNA
+  override var dna: DNA
+    private set
 
   //endregion
 
@@ -45,6 +47,16 @@ class TypedGene<DNA> : IGene<DNA> {
     dna = anAlphabet[key]!!
   }
   //endregion
+
+  override fun copyTo(other: IGene<*>) {
+    other.copyFromTypedGene(this)
+  }
+
+  @Suppress("UNCHECKED_CAST")
+  override fun copyFromTypedGene(other: TypedGene<*>) {
+    dna = other.dna as DNA
+    alphabet = other.alphabet as Map<String, DNA>
+  }
 
   /**
    * Checks if this gene is equal to another.
