@@ -3,11 +3,15 @@ package genetikt
 import com.sun.corba.se.impl.io.TypeMismatchException
 
 /**
+ * Genes are the basic elements of the `genetikt` package.
+ * They contain the actual information of the individuals of a population.
+ * In this context, the information contained in a gene is called DNA.
+ *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
  * @version 1.1
  */
-interface IGene<DNA> {
+interface IGene<out DNA> {
 
   /** DNA of this gene. */
   val dna: DNA

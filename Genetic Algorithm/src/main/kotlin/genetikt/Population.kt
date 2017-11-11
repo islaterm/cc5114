@@ -3,13 +3,14 @@ package genetikt
 import java.util.*
 
 /**
+ * A population es a set of individuals.
+ *
  * @param size
  *    Number of individuals of the population.
  * @param individualFactory
  *    Factory from which the individuals are going to be created.
- * @property  mutationRate
- *    Probability with which an individual will mutate.
- * @constructor Creates a population of individuals using a factory.
+ * @constructor
+ *    Creates a population of individuals using a factory.
  *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
@@ -17,8 +18,7 @@ import java.util.*
  */
 class Population(
     size: Int,
-    individualFactory: IndividualFactory,
-    private val mutationRate: Double = 0.03
+    individualFactory: IndividualFactory
 ) {
 
   private val rand = Random()
@@ -31,7 +31,9 @@ class Population(
 
   init {
     for (i in 0 until size) {
-      individuals.add(individualFactory.build())
+      val ind = individualFactory.build()
+      fitness(ind)
+      individuals.add(ind)
     }
     individuals.sort()
   }
@@ -41,40 +43,69 @@ class Population(
    */
   fun evolve() {
     val childrens = mutableListOf<Individual>()
+    val survivors = individuals.size / 4
+    var i = 0
     while (childrens.size < individuals.size) {
-      val parent1 = tournamentSelection()
-      val parent2 = tournamentSelection()
-      val child = crossover(parent1, parent2)
-      child.mutate()
-      childrens.add(child)
+      if (i < individuals.size - survivors - 1) {
+        val parent1 = tournamentSelection()
+        val parent2 = tournamentSelection()
+        val mixingPoint = rand.nextInt(parent1.size)
+
+        val child1 = crossover(parent1, parent2, mixingPoint)
+        child1.mutate()
+        fitness(child1)
+        childrens.add(child1)
+
+        val child2 = crossover(parent2, parent1, mixingPoint)
+        child2.mutate()
+        fitness(child2)
+        childrens.add(child2)
+        i += 2
+      } else {
+        childrens.add(individuals[i++])
+      }
     }
     individuals = childrens
+    individuals.sort()
   }
+
+  /** Getter the fittest individual. */
+  fun getFittest() = individuals.last()
 
   //region Private functions
   /** Generates an offspring from 2 parents. */
-  private fun crossover(ind1: Individual, ind2: Individual): Individual {
+  private fun crossover(ind1: Individual, ind2: Individual, mixingPoint: Int): Individual {
     assert(ind1.size == ind2.size) {
       "Size of the individuals doesn't match. Can't do a crossover."
     }
-    val offspringGenotype = Array(ind1.size) { i -> crossover(ind1.genotype[i], ind2.genotype[i]) }
-    return Individual(*offspringGenotype, mutationRate = mutationRate, fitness = ind1.getFitness)
+    val offspringGenotype = Array(ind1.size) { i ->
+      crossover(ind1.genotype[i], ind2.genotype[i], mixingPoint)
+    }
+    return Individual(
+        *offspringGenotype,
+        mutationRate = ind1.mutationRate
+    )
   }
 
-  private fun crossover(chrom1: IChromosome<*>, chrom2: IChromosome<*>): IChromosome<*> {
-    assert(chrom1.size == chrom2.size) {
-      "Size of the chromosomes doesn't match. Can't do a crossover."
-    }
-    assert(chrom1::class == chrom2::class) {
-      "Chromosome classes doesn't match. Can't do a crossover."
-    } //  idea Change assertions for chrom1.isCompatibeWith(chrom2)
+  /** Generates a new chromosome by doing a crossover of two parents. */
+  private fun crossover(chrom1: IChromosome<*>, chrom2: IChromosome<*>,
+      mixingPoint: Int): IChromosome<*> {
     val offspring = chrom1.copy()
-    val mixingPoint = rand.nextInt(offspring.size)
 
     (0 until offspring.size)
         .filter { it > mixingPoint }
         .forEach { chrom2.genes[it].copyTo(offspring.genes[it]) }
     return offspring
+  }
+
+  private fun fitness(individual: Individual) {
+    val fit = individual.genotype
+        .map { chromosome ->
+          (0 until chromosome.target.size)
+              .count { chromosome.genes[it] == chromosome.target[it] }
+        }
+        .map { it.toDouble() }
+    individual.fitness = fit.toDoubleArray()
   }
 
   /** Selects a random individual prioritizing the ones with greater fitness. */

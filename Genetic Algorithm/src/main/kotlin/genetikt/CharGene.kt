@@ -3,13 +3,15 @@ package genetikt
 import java.util.*
 
 /**
+ * Gene that represents a character.
+ *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
  * @version 1.1
  */
 class CharGene : IGene<Char> {
 
-  //region Properties
+//region Properties
   /** Character set used by this gene. */
   internal var alphabet: String
 
@@ -20,9 +22,9 @@ class CharGene : IGene<Char> {
   /** A character is valid if it's contained in the gene alphabet. */
   var isValid: Boolean
     private set
-  //endregion
+//endregion
 
-  //region Constructors
+//region Constructors
   /**
    * Creates a new gene from a random character.
    *
@@ -47,9 +49,11 @@ class CharGene : IGene<Char> {
     dna = char
     isValid = alphabet.asSequence().contains(char)
   }
-  //endregion
+//endregion
 
   //region Public declarations
+  fun copy() = CharGene(dna, alphabet)
+
   override fun copyTo(other: IGene<*>) {
     other.copyFromCharGene(this)
   }
@@ -59,6 +63,8 @@ class CharGene : IGene<Char> {
     dna = other.dna
     isValid = other.isValid
   }
+
+  override fun toString() = dna.toString()
 
   /**
    * Checks if this gene is equal to another.
@@ -81,5 +87,5 @@ class CharGene : IGene<Char> {
     result = 31 * result + isValid.hashCode()
     return result
   }
-  //endregion
+//endregion
 }

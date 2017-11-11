@@ -1,5 +1,6 @@
 package genetikt
 
+import java.lang.StringBuilder
 import java.util.*
 
 /**
@@ -7,9 +8,6 @@ import java.util.*
  *
  * @param chromosomes
  *    Chromosomes that make the genotype of the individual.
- * @param fitness
- *    **(Optional)** Fitness function.
- *    By default it's defined as the sum of the fitnesses of the chromosomes of the individual.
  * @property  mutationRate
  *    Mutation rate of the genes of the individual.
  * @constructor
@@ -21,39 +19,21 @@ import java.util.*
  */
 class Individual(
     vararg chromosomes: IChromosome<*>,
-    private val mutationRate: Double,
-    fitness: (() -> DoubleArray)? = null
+    internal val mutationRate: Double
 ) : Comparable<Individual> {
 
-  //region Properties
+//region Properties
   /** Number of chromosomes of the individual. */
   internal val size: Int = chromosomes.size
 
-  /**
-   * Fitness function.
-   * By default it's defined as the sum of the fitnesses of the chromosomes of the individual.
-   *
-   * @return
-   *    Fitness of the individual.
-   */
-  internal var getFitness: () -> DoubleArray = {
-    doubleArrayOf(genotype.sumByDouble { it.fitness() })
-  }
-
   /** Array of chromosomes of the individual. */
-  internal var genotype: Array<IChromosome<*>>
+  internal var genotype = Array(chromosomes.size) { i -> chromosomes[i] }
 
   /** Fitness of the individual. */
-  private var fitness: DoubleArray
-  //endregion
+  var fitness: DoubleArray = doubleArrayOf(0.0)
+//endregion
 
-  init {
-    genotype = Array(chromosomes.size) { i -> chromosomes[i] }
-    if (fitness != null) getFitness = fitness
-    this.fitness = getFitness()
-  }
-
-  //region Public functions
+//region Public functions
   /**
    * Compares this object with the specified object for order. Returns zero if this object is equal
    * to the specified [other] object, a negative number if it's less than [other], or a positive number
@@ -71,6 +51,15 @@ class Individual(
     return 0
   }
 
+  override fun toString(): String {
+    val sb = StringBuilder()
+    for (i in 0 until size) {
+      sb.append(genotype[i].toString())
+      if (i < size - 1) sb.append(", ")
+    }
+    return sb.toString()
+  }
+
   override fun equals(other: Any?): Boolean {
     if (other !is Individual) return false
     if (other.size != this.size) return false
@@ -80,13 +69,10 @@ class Individual(
   override fun hashCode(): Int {
     var result = Arrays.hashCode(fitness)
     result = 31 * result + size
-    result = 31 * result + getFitness.hashCode()
     result = 31 * result + Arrays.hashCode(genotype)
     return result
   }
-  //endregion
-
-  //region Internal definitions
+//endregion
 
   /**
    * Mutates the individual according to it's mutation rate.
@@ -94,5 +80,4 @@ class Individual(
   internal fun mutate() {
     for (chromosome in genotype) chromosome.mutate(mutationRate)
   }
-  //endregion
 }

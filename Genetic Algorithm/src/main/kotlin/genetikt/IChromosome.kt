@@ -1,9 +1,12 @@
 package genetikt
 
 /**
+ * A chromosome consists of an array of genes.
+ *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
  * @version 1.1
+ * @see IGene
  */
 interface IChromosome<G : IGene<*>> {
 
@@ -14,9 +17,6 @@ interface IChromosome<G : IGene<*>> {
   val size: Int
     get() = genes.size
 
-  /** Fitness of the chromosome. */
-  val fitness: () -> Double
-
   /** Creates a copy of this chromosome. */
   fun copy(): IChromosome<G>
 
@@ -26,4 +26,6 @@ interface IChromosome<G : IGene<*>> {
    * @param mutationRate  Probability with which a gene will mutate.
    */
   fun mutate(mutationRate: Double)
+
+  val target: Array<G>
 }

@@ -26,6 +26,6 @@ class CharChromosomeFactory(
 
   /** Builds a new `CharChromosome`. */
   override fun build(): CharChromosome {
-    return CharChromosome(size, aTarget, fitnessFunction, anAlphabet)
+    return CharChromosome(size, aTarget, anAlphabet)
   }
 }

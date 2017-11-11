@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CC5114 - Redes Neuronales y Programación Genética-Genetic_Algorithm.iml" filepath="$PROJECT_DIR$/.idea/modules/CC5114 - Redes Neuronales y Programación Genética-Genetic_Algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Genetic Algorithm.iml" filepath="$PROJECT_DIR$/.idea/modules/Genetic Algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Genetic_Algorithm.iml" filepath="$PROJECT_DIR$/.idea/modules/Genetic_Algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Genetic_Algorithm_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Genetic_Algorithm_main.iml" group="Genetic_Algorithm" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Genetic_Algorithm_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Genetic_Algorithm_test.iml" group="Genetic_Algorithm" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neural Networks.iml" filepath="$PROJECT_DIR$/.idea/modules/Neural Networks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neural Network.iml" filepath="$PROJECT_DIR$/.idea/modules/Neural Network.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neural_Networks.iml" filepath="$PROJECT_DIR$/.idea/modules/Neural_Networks.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neural_Networks_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Neural_Networks_main.iml" group="Neural_Networks" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neural_Networks_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Neural_Networks_test.iml" group="Neural_Networks" />

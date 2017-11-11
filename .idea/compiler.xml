@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="Genetic_Algorithm_main" target="1.8" />
       <module name="Genetic_Algorithm_test" target="1.8" />
+      <module name="Neural_Network_main" target="1.8" />
+      <module name="Neural_Network_test" target="1.8" />
       <module name="Neural_Networks_main" target="1.8" />
       <module name="Neural_Networks_test" target="1.8" />
     </bytecodeTargetLevel>

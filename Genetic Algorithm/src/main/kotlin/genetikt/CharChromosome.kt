@@ -1,5 +1,6 @@
 package genetikt
 
+import java.lang.StringBuilder
 import java.util.*
 
 /**
@@ -11,36 +12,25 @@ import java.util.*
  */
 class CharChromosome : IChromosome<CharGene> {
 
-  //region Properties
+//region Properties
+  /** Set of valid characters for the genes of the chromosome. */
   private val alphabet: String
 
   /** Genes that make up the chromosome. */
   override val genes: Array<CharGene>
   /** Target string of the chromosome. */
-  private val target: Array<CharGene>
+  override val target: Array<CharGene>
+//endregion
 
+//region Constructors
   /**
-   * Fitness function.
-   * By default it's defined as how "_close_" the chromosome is to the target.
+   * Create a new chromosome of the given `size`.
    *
-   * @return
-   *    Fitness of the chromosome.
-   */
-  override var fitness: () -> Double
-    private set
-  //endregion
-
-  //region constructors
-  /**
    * @param size
    *    Number of genes in the chromosome.
    * @param aTarget
    *    **(Optional)** Target string of the chromosome.
    *    By default the chromosome has no target (target's an empty string).
-   * @param fitnessFunction
-   *    **(Optional)** Function that calculates the fitness of the chromosome.
-   *     By default it's defined as how close is the chromosome to the target (number of equal
-   *     characters).
    * @param alphabet
    *    **(Optional)** Set of valid characters that can take every gene.
    *    By default
@@ -49,15 +39,16 @@ class CharChromosome : IChromosome<CharGene> {
   constructor(
       size: Int,
       aTarget: String = "",
-      fitnessFunction: (() -> Double)? = null,
       alphabet: String = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"%\$&/()=?`{[]}\\+~*#';.:,-_<>|@^'"
-  ) : this(size, aTarget, fitnessFunction, alphabet, null)
+  ) : this(size, aTarget, alphabet, null)
 
-  /** Secondary constructor */
+  /**
+   * Secondary constructor.
+   * Create a new chromosome from a given `genes` array.
+   */
   private constructor(
       size: Int,
       aTarget: String,
-      fitnessFunction: (() -> Double)?,
       alphabet: String,
       genes: Array<CharGene>?
   ) {
@@ -66,16 +57,8 @@ class CharChromosome : IChromosome<CharGene> {
         if (genes != null) Array(size) { i -> genes[i] }
         else Array(size) { CharGene(alphabet) }
     this.target = Array(aTarget.length) { i -> CharGene(aTarget[i], alphabet) }
-    fitness = fitnessFunction ?: {
-      assert(target.size == size) { "Target must be equal in size to chromosome." }
-      var score = 0.0
-      (0 until target.size)
-          .filter { target[it] == genes!![it] }
-          .forEach { score++ }
-      score / target.size
-    }
   }
-  //endregion
+//endregion
 
   override fun mutate(mutationRate: Double) {
     val rand = Random()
@@ -83,18 +66,38 @@ class CharChromosome : IChromosome<CharGene> {
       if (rand.nextDouble() < mutationRate) genes[i] = CharGene(alphabet)
   }
 
-  override fun copy() = CharChromosome(size, target.joinToString { "" }, fitness, alphabet, genes)
+  override fun copy(): CharChromosome {
+    val genesCopy = Array(genes.size) { i -> genes[i].copy() }
+    return CharChromosome(size, toString(target), alphabet, genesCopy)
+  }
 
+  /**
+   * Indicates whether some other object is "equal to" this one.
+   */
   override fun equals(other: Any?): Boolean {
     if (other !is CharChromosome) return false
     if (other.size != this.size) return false
     return (0 until size).none { genes[it] != other.genes[it] }
   }
 
+  /**
+   * Returns a hash code value for the object.
+   */
   override fun hashCode(): Int {
     var result = Arrays.hashCode(genes)
     result = 31 * result + Arrays.hashCode(target)
-    result = 31 * result + fitness.hashCode()
     return result
+  }
+
+  override fun toString(): String {
+    val sb = StringBuilder()
+    for (gene in genes) sb.append(gene.toString())
+    return sb.toString()
+  }
+
+  private fun toString(target: Array<CharGene>): String {
+    val sb = StringBuilder()
+    for (gene in target) sb.append(gene.toString())
+    return sb.toString()
   }
 }

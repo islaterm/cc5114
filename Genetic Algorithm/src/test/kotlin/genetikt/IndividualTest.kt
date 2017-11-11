@@ -2,7 +2,6 @@ package genetikt
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Test
 
 /**
@@ -15,11 +14,6 @@ class IndividualTest {
   private lateinit var ind1: Individual
   private lateinit var ind2: Individual
   private lateinit var ind3: Individual
-
-  @Before
-  fun setUp() {
-
-  }
 
   @Test
   fun equalsTest() {
@@ -35,12 +29,12 @@ class IndividualTest {
 
   @Test
   fun compareToTest() {
-    val fit1 = { doubleArrayOf(2.0, 2.0, 1.0) }
-    ind1 = Individual(chromosomes = CharChromosome(4), fitness = fit1, mutationRate = 0.03)
-    val fit2 = { doubleArrayOf(2.0, 2.0, 2.0) }
-    ind2 = Individual(chromosomes = CharChromosome(4), fitness = fit2, mutationRate = 0.03)
-    val fit3 = { doubleArrayOf(1.0, 3.0, 4.0) }
-    ind3 = Individual(chromosomes = CharChromosome(4), fitness = fit3, mutationRate = 0.03)
+    ind1 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03)
+    ind1.fitness = doubleArrayOf(2.0, 2.0, 1.0)
+    ind2 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03)
+    ind2.fitness = doubleArrayOf(2.0, 2.0, 2.0)
+    ind3 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03)
+    ind3.fitness = doubleArrayOf(1.0, 3.0, 4.0)
 
     val list = listOf(ind1, ind2, ind3).sorted()
     // Elements get sorted from lowest fitness to highest.

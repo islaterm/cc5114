@@ -1,6 +1,8 @@
 package genetikt
 
 /**
+ * Factory for creating chromosomes.
+ *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
  * @version 1.1

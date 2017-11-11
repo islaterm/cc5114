@@ -18,6 +18,6 @@ class IndividualFactory(
   /** Builds an individual. */
   fun build(): Individual {
     val genotype = Array(factories.size) { i -> factories[i].build() }
-    return Individual(chromosomes = *genotype, mutationRate = mutationRate)
+    return Individual(*genotype, mutationRate = mutationRate)
   }
 }
