@@ -23,10 +23,7 @@ fun main(args: Array<String>) {
       TypedChromosomeFactory(size = 1, alphabet = availableItems.ornament),
       TypedChromosomeFactory(size = 1, alphabet = availableItems.costume),
       TypedChromosomeFactory(size = 1, alphabet = availableItems.accessory),
-      mutationRate = 0.4,
-      fitnessFunction = ::fitness,
-      filterFunction = ::filter
-  )
+      mutationRate = 0.4, fitnessFunction = ::fitness, filterFunction = ::filter)
   val population = Population(1000, factory)
   var fittest = population.getFittest()
 
