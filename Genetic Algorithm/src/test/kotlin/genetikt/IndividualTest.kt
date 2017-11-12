@@ -9,7 +9,7 @@ import org.junit.Test
 @Suppress("UNUSED_PARAMETER")
 /**
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
- * @version 1.1
+ * @version 1.2
  * @since   1.1
  */
 class IndividualTest {
@@ -32,9 +32,12 @@ class IndividualTest {
 
   @Test
   fun compareToTest() {
-    ind1 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03) { fitness1(it) }
-    ind2 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03) { fitness2(it) }
-    ind3 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03) { fitness3(it) }
+    ind1 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03,
+        fitnessFunction = { fitness1(it) })
+    ind2 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03,
+        fitnessFunction = { fitness2(it) })
+    ind3 = Individual(chromosomes = CharChromosome(4), mutationRate = 0.03,
+        fitnessFunction = { fitness3(it) })
 
     val list = listOf(ind1, ind2, ind3).sorted()
     // Elements get sorted from lowest fitness to highest.

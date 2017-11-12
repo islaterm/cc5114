@@ -7,14 +7,18 @@ import java.util.*
 /**
  * Individual of a population, it is made of a set of chromosomes.
  *
- * @param chromosomes
- *    Chromosomes that make the genotype of the individual.
- * @property  mutationRate
- *    Mutation rate of the genes of the individual.
- * @property fitnessFunction
- *    **(Optional)** Custom fitness function.
  * @constructor
  *    Creates an individual from a set of particular chromosomes.
+ * @param chromosomes
+ *    Chromosomes that make the genotype of the individual.
+ * @param  mutationRate
+ *    Mutation rate of the genes of the individual.
+ * @param fitnessFunction
+ *    **(Optional)** Custom fitness function.
+ * @param filterFunction
+ *    **(Optional)**
+ *    Custom filter function.
+ *    By default, there's no filter for the individuals.
  *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
@@ -23,21 +27,27 @@ import java.util.*
 class Individual(
     vararg chromosomes: IChromosome<*>,
     private val mutationRate: Double,
-    private val fitnessFunction: ((Individual) -> DoubleArray)? = null
+    private val fitnessFunction: ((Individual) -> DoubleArray)? = null,
+    filterFunction: ((Individual) -> Unit)? = null
 ) : Comparable<Individual> {
 
 //region Properties
+  /** Fitness of the individual. */
+  var fitness: DoubleArray = doubleArrayOf(0.0)
+
   /** Number of chromosomes of the individual. */
   internal val size: Int = chromosomes.size
 
   /** Array of chromosomes of the individual. */
   private var genotype = Array(chromosomes.size) { i -> chromosomes[i] }
 
-  /** Fitness of the individual. */
-  var fitness: DoubleArray = doubleArrayOf(0.0)
+  /** Provides a way of filtering the selected individuals. */
+  private val filter: (Individual) -> Unit
 //endregion
 
   init {
+    filter = filterFunction ?: { individual: Individual -> defaultFilter(individual) }
+    filter(this)
     updateFitness()
   }
 
@@ -53,7 +63,8 @@ class Individual(
     return Individual(
         *offspringGenotype,
         mutationRate = mutationRate,
-        fitnessFunction = fitnessFunction
+        fitnessFunction = fitnessFunction,
+        filterFunction = filter
     )
   }
 
@@ -76,6 +87,7 @@ class Individual(
    */
   internal fun mutate() {
     for (chromosome in genotype) chromosome.mutate(mutationRate)
+    filter(this)
     updateFitness()
   }
 
@@ -98,6 +110,14 @@ class Individual(
         }
         .map { it.toDouble() }
     return fit.toDoubleArray()
+  }
+
+  /**
+   * Default filter of the individual. Does nothing.
+   */
+  @Suppress("UNUSED_PARAMETER")
+  private fun defaultFilter(individual: Individual) {
+    return
   }
 //endregion
 
