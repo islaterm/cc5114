@@ -91,5 +91,9 @@ class CharGene : IGene<Char> {
    * Returns a string representation of this gene.
    */
   override fun toString() = dna.toString()
+
+  fun replaceWith(value: Char) {
+    dna = value
+  }
 //endregion
 }

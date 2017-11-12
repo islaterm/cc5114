@@ -68,6 +68,9 @@ class CharChromosome : IChromosome<CharGene> {
       if (rand.nextDouble() < mutationRate) genes[i] = CharGene(alphabet)
   }
 
+  override fun replaceGeneAt(geneIndex: Int, value: Any) {
+    genes[geneIndex].replaceWith(value as Char)
+  }
 //region Utility functions.
 
   override fun copy(): CharChromosome {

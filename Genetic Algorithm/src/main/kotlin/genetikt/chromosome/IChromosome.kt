@@ -30,4 +30,6 @@ interface IChromosome<G : IGene<*>> {
   fun mutate(mutationRate: Double)
 
   val target: Array<G>
+
+  fun replaceGeneAt(geneIndex: Int, value: Any)
 }

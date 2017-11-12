@@ -39,7 +39,8 @@ class Individual(
   internal val size: Int = chromosomes.size
 
   /** Array of chromosomes of the individual. */
-  private var genotype = Array(chromosomes.size) { i -> chromosomes[i] }
+  var genotype = Array(chromosomes.size) { i -> chromosomes[i] }
+    private set
 
   /** Provides a way of filtering the selected individuals. */
   private val filter: (Individual) -> Unit
@@ -88,6 +89,11 @@ class Individual(
   internal fun mutate() {
     for (chromosome in genotype) chromosome.mutate(mutationRate)
     filter(this)
+    updateFitness()
+  }
+
+  fun replaceGeneAt(chromosomeIndex: Int, geneIndex: Int, with: Any) {
+    genotype[chromosomeIndex].replaceGeneAt(geneIndex, with)
     updateFitness()
   }
 

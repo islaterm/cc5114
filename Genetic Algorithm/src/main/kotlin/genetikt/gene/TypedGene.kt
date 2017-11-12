@@ -94,5 +94,10 @@ class TypedGene<DNA> : IGene<DNA> {
    * Returns a string representation of this gene.
    */
   override fun toString() = key
+
+  fun replaceWith(value: String) {
+    key = value
+    dna = alphabet[key]!!
+  }
 //endregion
 }

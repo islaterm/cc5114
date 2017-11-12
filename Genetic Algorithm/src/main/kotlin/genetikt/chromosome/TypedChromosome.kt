@@ -19,6 +19,10 @@ class TypedChromosome<DNA> : IChromosome<TypedGene<DNA>> {
   /** Genes that make up the chromosome. */
   override val genes: Array<TypedGene<DNA>>
 
+  override fun replaceGeneAt(geneIndex: Int, value: Any) {
+    genes[geneIndex].replaceWith(value as String)
+  }
+
   /** Target sequence of the chromosome. */
   override val target: Array<TypedGene<DNA>>
 
