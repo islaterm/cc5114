@@ -1,4 +1,6 @@
-package genetikt
+package genetikt.chromosome
+
+import genetikt.gene.IGene
 
 /**
  * A chromosome consists of an array of genes.

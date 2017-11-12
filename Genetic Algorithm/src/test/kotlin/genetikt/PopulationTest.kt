@@ -1,5 +1,6 @@
 package genetikt
 
+import genetikt.chromosome.CharChromosomeFactory
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

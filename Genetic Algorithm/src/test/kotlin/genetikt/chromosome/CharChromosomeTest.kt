@@ -1,5 +1,6 @@
-package genetikt
+package genetikt.chromosome
 
+import genetikt.gene.CharGene
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -1,4 +1,4 @@
-package genetikt
+package genetikt.gene
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

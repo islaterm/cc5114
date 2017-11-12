@@ -1,5 +1,6 @@
-package genetikt
+package genetikt.chromosome
 
+import genetikt.gene.CharGene
 import java.lang.StringBuilder
 import java.util.*
 
@@ -8,7 +9,7 @@ import java.util.*
  *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
- * @version 1.1
+ * @version 1.2
  */
 class CharChromosome : IChromosome<CharGene> {
 
@@ -18,7 +19,8 @@ class CharChromosome : IChromosome<CharGene> {
 
   /** Genes that make up the chromosome. */
   override val genes: Array<CharGene>
-  /** Target string of the chromosome. */
+
+  /** Target sequence of the chromosome. */
   override val target: Array<CharGene>
 //endregion
 
@@ -66,6 +68,8 @@ class CharChromosome : IChromosome<CharGene> {
       if (rand.nextDouble() < mutationRate) genes[i] = CharGene(alphabet)
   }
 
+//region Utility functions.
+
   override fun copy(): CharChromosome {
     val genesCopy = Array(genes.size) { i -> genes[i].copy() }
     return CharChromosome(size, toString(target), alphabet, genesCopy)
@@ -89,15 +93,20 @@ class CharChromosome : IChromosome<CharGene> {
     return result
   }
 
+  /**
+   * Returns the string representation of this chromosome.
+   */
   override fun toString(): String {
+    return toString(genes)
+  }
+
+  /**
+   * Returns the string representation of an array of genes.
+   */
+  private fun toString(genes: Array<CharGene>): String {
     val sb = StringBuilder()
     for (gene in genes) sb.append(gene.toString())
     return sb.toString()
   }
-
-  private fun toString(target: Array<CharGene>): String {
-    val sb = StringBuilder()
-    for (gene in target) sb.append(gene.toString())
-    return sb.toString()
-  }
+//endregion
 }

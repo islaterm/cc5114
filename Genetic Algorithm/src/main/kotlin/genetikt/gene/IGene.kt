@@ -1,4 +1,4 @@
-package genetikt
+package genetikt.gene
 
 import com.sun.corba.se.impl.io.TypeMismatchException
 

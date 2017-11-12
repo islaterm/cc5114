@@ -1,4 +1,4 @@
-package genetikt
+package genetikt.gene
 
 import com.sun.corba.se.impl.io.TypeMismatchException
 import org.junit.Assert.*
@@ -20,8 +20,9 @@ class CharGeneTest {
 
   @Before
   fun setUp() {
-    gene1 = CharGene("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !" +
-        "\"%\$&/()=?`{[]}\\+~*#';.:,-_<>|@^'")
+    gene1 = CharGene(
+        "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !" +
+            "\"%\$&/()=?`{[]}\\+~*#';.:,-_<>|@^'")
     gene2 = CharGene('A', "A")
     gene3 = CharGene('A', "A")
     gene4 = CharGene('A', "ABC")

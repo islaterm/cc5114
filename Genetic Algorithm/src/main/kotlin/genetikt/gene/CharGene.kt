@@ -1,4 +1,4 @@
-package genetikt
+package genetikt.gene
 
 import java.util.*
 
@@ -7,11 +7,10 @@ import java.util.*
  *
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
- * @version 1.1
+ * @version 1.2
  */
 class CharGene : IGene<Char> {
 
-//region Properties
   /** Character set used by this gene. */
   internal var alphabet: String
 
@@ -22,7 +21,6 @@ class CharGene : IGene<Char> {
   /** A character is valid if it's contained in the gene alphabet. */
   var isValid: Boolean
     private set
-//endregion
 
 //region Constructors
   /**
@@ -51,7 +49,10 @@ class CharGene : IGene<Char> {
   }
 //endregion
 
-  //region Public declarations
+//region Utility functions
+  /**
+   * Returns a copy of this gene.
+   */
   fun copy() = CharGene(dna, alphabet)
 
   override fun copyTo(other: IGene<*>) {
@@ -63,8 +64,6 @@ class CharGene : IGene<Char> {
     dna = other.dna
     isValid = other.isValid
   }
-
-  override fun toString() = dna.toString()
 
   /**
    * Checks if this gene is equal to another.
@@ -87,5 +86,10 @@ class CharGene : IGene<Char> {
     result = 31 * result + isValid.hashCode()
     return result
   }
+
+  /**
+   * Returns a string representation of this gene.
+   */
+  override fun toString() = dna.toString()
 //endregion
 }

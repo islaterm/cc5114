@@ -1,15 +1,14 @@
-package genetikt
+package genetikt.gene
 
 import java.util.*
 
 /**
  * @author  [Ignacio Slater Muñoz](mailto:ignacio.slater@ug.uchile.cl)
  * @since   1.1
- * @version 1.1
+ * @version 1.2
  */
 class TypedGene<DNA> : IGene<DNA> {
 
-  //region Properties
   /** Dictionary that contains all the valid DNA sequences. */
   var alphabet: Map<String, DNA>
     private set
@@ -18,9 +17,10 @@ class TypedGene<DNA> : IGene<DNA> {
   override var dna: DNA
     private set
 
-  //endregion
+  /** String that identifies this gene. */
+  private var key: String
 
-  //region Constructors
+//region Constructors
   /**
    * Creates a random gene.
    *
@@ -30,7 +30,8 @@ class TypedGene<DNA> : IGene<DNA> {
   constructor(anAlphabet: Map<String, DNA>) {
     alphabet = anAlphabet
     val keys = ArrayList(alphabet.keys)
-    dna = alphabet[keys[Random().nextInt(keys.size)]]!!
+    key = keys[Random().nextInt(keys.size)]
+    dna = alphabet[key]!!
   }
 
   /**
@@ -44,9 +45,16 @@ class TypedGene<DNA> : IGene<DNA> {
    */
   constructor(key: String, anAlphabet: Map<String, DNA>) {
     alphabet = anAlphabet
+    this.key = key
     dna = anAlphabet[key]!!
   }
-  //endregion
+//endregion
+
+//region Utility functions
+  /**
+   * Returns a copy of this gene.
+   */
+  fun copy() = TypedGene(key, alphabet)
 
   override fun copyTo(other: IGene<*>) {
     other.copyFromTypedGene(this)
@@ -55,6 +63,7 @@ class TypedGene<DNA> : IGene<DNA> {
   @Suppress("UNCHECKED_CAST")
   override fun copyFromTypedGene(other: TypedGene<*>) {
     dna = other.dna as DNA
+    key = other.key
     alphabet = other.alphabet as Map<String, DNA>
   }
 
@@ -71,9 +80,19 @@ class TypedGene<DNA> : IGene<DNA> {
         && this.alphabet == other.alphabet
   }
 
+  /**
+   * Returns a hash code value for the object.
+   */
   override fun hashCode(): Int {
     var result = alphabet.hashCode()
     result = 31 * result + (dna?.hashCode() ?: 0)
+    result = 31 * result + key.hashCode()
     return result
   }
+
+  /**
+   * Returns a string representation of this gene.
+   */
+  override fun toString() = key
+//endregion
 }

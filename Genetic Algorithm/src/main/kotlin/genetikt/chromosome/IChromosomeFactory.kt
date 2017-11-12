@@ -1,4 +1,6 @@
-package genetikt
+package genetikt.chromosome
+
+import genetikt.gene.IGene
 
 /**
  * Factory for creating chromosomes.
